@@ -9,12 +9,12 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Configuration
 public class WebConfig {
 
-    private static final String API_URL = "https://v2.jokeapi.dev/joke/"; //Any?type=single&amount=16";
+    private static final String BASE_API_URL = "https://v2.jokeapi.dev/joke/"; //Any?type=single&amount=16";
 
     @Bean
     public WebClient webClient() {
         return WebClient.builder()
-                .baseUrl(API_URL)
+                .baseUrl(BASE_API_URL)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
     }

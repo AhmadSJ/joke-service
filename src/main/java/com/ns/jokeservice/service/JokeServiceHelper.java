@@ -1,9 +1,7 @@
 package com.ns.jokeservice.service;
 
-import com.ns.jokeservice.model.Flags;
-import com.ns.jokeservice.model.Joke;
-import com.ns.jokeservice.model.JokeReply;
-import com.ns.jokeservice.model.JokesFromApiResponse;
+import com.ns.jokeservice.exception.ApiErrorException;
+import com.ns.jokeservice.model.*;
 import org.springframework.stereotype.Component;
 
 import java.util.Comparator;
@@ -36,6 +34,10 @@ public class JokeServiceHelper {
         return (shortestJoke != null)
                 ? new JokeReply(shortestJoke.getId(), shortestJoke.getJoke())
                 : new JokeReply(0, "No safe jokes found");
+    }
+
+    public void processError(ErrorResponse response) {
+        throw new ApiErrorException("An error has occured", response);
     }
 }
 

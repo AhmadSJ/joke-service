@@ -12,9 +12,6 @@ public class Joke {
     private int id;
     private boolean safe;
 
-    public Joke(int i, String shortJoke) {
-    }
-
     public static Builder builder() {
         return new Builder();
     }
