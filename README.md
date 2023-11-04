@@ -5,3 +5,7 @@ GET-request to return a safe, non-explicit, non-sexist joke without any user inp
 There is another endpoint, /api/specify-joke/ where the user can provide path variables and query parameters
 to specify the collection of jokes that can be selected from. It also returns a safe, non-explicit,
 non-sexist joke.
+
+# Requirements
+Spring Boot 2.7.17
+java 11
