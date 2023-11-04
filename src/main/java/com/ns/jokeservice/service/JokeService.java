@@ -26,8 +26,7 @@ import java.util.Map;
 public class JokeService {
     private final WebClient webClient;
     private final JokeServiceHelper jokeServiceHelper;
-
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
     @Autowired
     public JokeService(WebClient webClient, JokeServiceHelper jokeServiceHelper, ObjectMapper objectMapper) {
@@ -37,6 +36,12 @@ public class JokeService {
     }
 
     public JokeReply getRandomJokeGivenParameters(List<String> categories, Map<String, String> queryParams) {
+        /*
+        This method will take the path variables and query parameters given by the controller and call the
+        api endpoint https://v2.jokeapi.dev/joke/ with these variables and parameters and return the shortest joke that is
+        safe, not explicit and not sexist.
+         */
+
         UriComponents uriComponents = buildUriWithQueryParameters(categories, queryParams);
 
         String response = webClient.get()
@@ -44,15 +49,14 @@ public class JokeService {
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
-
-        Object responseObject = null;
+        // error handling
         try {
             JsonNode jsonNode = objectMapper.readTree(response);
-            if(jsonNode.has("error") && jsonNode.get("error").asText().equals("true")){
+            if(jsonNode.has("error") && jsonNode.get("error").asText().equals("true")){ // If the response is an error then process it.
                 ErrorResponse errorResponse = objectMapper.readValue(response, ErrorResponse.class);
                 jokeServiceHelper.processError(errorResponse);
                 return new JokeReply(0, "An error has occured");
-            } else {
+            } else { // If the response is not an error then return a joke that fulfills the requirements.
                 JokesFromApiResponse jokeResponse = objectMapper.readValue(response, JokesFromApiResponse.class);
                 return jokeServiceHelper.processJokes(jokeResponse);
             }
@@ -63,8 +67,12 @@ public class JokeService {
         }
     }
 
+
     public JokeReply getRandomJoke() {
-        // Fetch jokes from the external API
+        /*
+        This method returns a random joke  from the api endpoint https://v2.jokeapi.dev/joke/,
+        that fulfills the requirements, without any user input parameters.
+         */
         JokesFromApiResponse response = webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("Any")
@@ -87,7 +95,7 @@ public class JokeService {
         for (Map.Entry<String, String> entry : queryParams.entrySet()) {
             builder.queryParam(entry.getKey(), entry.getValue());
         }
-
+        builder.queryParam("type", "single");
         return builder.build();
     }
 

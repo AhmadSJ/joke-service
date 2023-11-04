@@ -22,11 +22,18 @@ public class JokeController {
     }
     @GetMapping("/random-joke/")
     public ResponseEntity<JokeReply> getRandomJoke() {
+        /*
+        This api-endpoint can be called to return a random joke that safe, not sexist and not explicit.
+         */
         return new ResponseEntity<>(jokeService.getRandomJoke(), HttpStatus.FOUND);
     }
 
     @GetMapping("/specify-joke/{categories}")
     public JokeReply getSpecifiedJoke(@PathVariable List<String> categories, @RequestParam Map<String, String> queryParams) {
+        /*
+        This api-endpoint can be called to return a random joke that is safe, not sexist and not explicit. The user can
+        provide categories and query parameters to specify the types of jokes being retrieved for selection.
+         */
         return jokeService.getRandomJokeGivenParameters(categories, queryParams);
     }
 

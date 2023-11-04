@@ -5,10 +5,8 @@ import com.ns.jokeservice.model.Joke;
 import com.ns.jokeservice.model.JokeReply;
 import com.ns.jokeservice.service.JokeServiceHelper;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +20,7 @@ public class JokeServiceHelperTest {
     @Autowired
     private JokeServiceHelper jokeServiceHelper;
     @Test
-    public void givenMultipleJokesThenReturnShortest() {
+    public void givenMultipleJokes_whenFilteringShortest_ThenReturnShortest() {
 
         //Given
         List<Joke> safeJokes = new ArrayList<>();
@@ -49,7 +47,7 @@ public class JokeServiceHelperTest {
     }
 
     @Test
-    public void givenSafeAndUnsafeJokeThenReturnTrueAndFalse() {
+    public void givenSafeAndUnsafeJoke_whenCheckingIfSafe_ThenReturnTrueAndFalse() {
 
         Joke safeJoke = Joke.builder()
                 .joke("Safe joke")
